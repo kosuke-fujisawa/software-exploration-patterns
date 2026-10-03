@@ -1,0 +1,99 @@
+name: 新しい探索知を提案する
+description: 気づいた経験、違和感、うまくいった（いかなかった）やり方を投稿します。
+title: "[探索知] "
+labels:
+  - episode
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## パターン形式に整理して投稿する必要はありません
+
+        **エピソードだけでも歓迎します。** 「こういう状況で、こう気づいた」だけで十分です。
+        整理・分類・ファイル化は、Maintainer や他の参加者が引き取ります。
+
+        空欄の項目があっても構いません。必須は「どんな状況だったか」だけです。
+
+        ---
+
+        ### ⚠ 公開してはいけない情報を書かないでください
+
+        **顧客名、会社名、個人情報、非公開仕様、内部URL、認証情報、案件固有の詳細など、公開してはいけない情報を書かないでください。実務事例は一般化・抽象化して投稿してください。**
+
+        例: 「A社の受発注システムで」→「業務システムで」 / 「B部長が決めた」→「決裁権を持つ人が決めた」
+
+        Issue は公開されます。投稿後に編集しても、通知メールや履歴には残ります。
+
+  - type: input
+    id: tentative-name
+    attributes:
+      label: 仮の名前
+      description: 思いつかなければ空欄で構いません。
+      placeholder: 例) 値の根拠を聞いたら仕様が変わった
+    validations:
+      required: false
+
+  - type: textarea
+    id: situation
+    attributes:
+      label: どんな状況だったか
+      description: 抽象化して書いてください。
+      placeholder: 例) 仕様書に根拠の書かれていない上限値があり、それをもとにテスト設計を始めようとしていた。
+    validations:
+      required: true
+
+  - type: textarea
+    id: noticed
+    attributes:
+      label: 何に気づいたか
+      description: 違和感、ズレ、不明点。
+    validations:
+      required: false
+
+  - type: textarea
+    id: action
+    attributes:
+      label: どう行動したか
+      description: うまくいかなかった行動も書いて構いません。
+    validations:
+      required: false
+
+  - type: textarea
+    id: learned
+    attributes:
+      label: 何が分かったか
+      description: 分からないままだった場合は、そう書いてください。それも知識です。
+    validations:
+      required: false
+
+  - type: input
+    id: related
+    attributes:
+      label: 関連する既存パターンがあれば
+      description: 思い当たるものがあれば。なくても構いません。
+      placeholder: 例) 値の意味を問う
+    validations:
+      required: false
+
+  - type: textarea
+    id: sources
+    attributes:
+      label: 出典があれば
+      description: 書籍、記事、方法論など。「どこかで読んだ気がする」程度でも構いません。
+    validations:
+      required: false
+
+  - type: textarea
+    id: other
+    attributes:
+      label: その他
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confidentiality
+    attributes:
+      label: 確認
+      options:
+        - label: 公開してはいけない情報（顧客名・会社名・個人情報・非公開仕様・内部URL・認証情報・案件固有の詳細）が含まれていないことを確認しました
+          required: true

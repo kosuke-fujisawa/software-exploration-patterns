@@ -1,0 +1,60 @@
+# main にマージされたら、派生物を生成して GitHub Pages に公開する。
+#
+# 公開を有効にするには、リポジトリの Settings → Pages → Source を
+# 「GitHub Actions」に設定する必要がある（一度だけ）。
+# 採用理由は docs/adr/0002-github-pages-with-jekyll.md を参照。
+
+name: pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      # front matter の検査と、catalog.json / llms.txt などの生成。
+      # 生成物はコミットせず、ここで作ってサイトに載せる。
+      - name: Generate catalog
+        run: python3 scripts/build_catalog.py --base-url "${{ steps.pages.outputs.base_url }}"
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    # PR ではビルドの確認のみ行い、公開は main へのマージ時だけ。
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

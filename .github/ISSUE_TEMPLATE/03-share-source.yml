@@ -1,0 +1,60 @@
+name: 出典・先行研究の共有
+description: 「その話はすでに○○で論じられている」という指摘を共有します。
+title: "[出典] "
+labels:
+  - source
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **既存知識の再発明を避けることは、このリポジトリの目的のひとつです。**
+        出典だけの共有も歓迎します。内容に詳しくなくても、存在を知っているだけで構いません。
+
+        なお、**他者の著作物の本文は転載しないでください。** 書誌情報・リンク・ご自身の言葉による要約をお願いします。
+
+  - type: input
+    id: name
+    attributes:
+      label: 名称
+      placeholder: 例) Explore It! (Elisabeth Hendrickson)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 種類
+      options:
+        - 書籍
+        - 論文
+        - 記事・ブログ
+        - 方法論・フレームワーク
+        - 規格・シラバス
+        - コミュニティ活動・発表
+        - その他
+    validations:
+      required: false
+
+  - type: input
+    id: url
+    attributes:
+      label: リンク
+      placeholder: https://
+    validations:
+      required: false
+
+  - type: textarea
+    id: relation
+    attributes:
+      label: このリポジトリのどの知識と関係しそうか
+      description: 具体的なパターン名でも、「探索全般」のような粒度でも構いません。
+    validations:
+      required: false
+
+  - type: textarea
+    id: note
+    attributes:
+      label: 補足
+      description: どんな内容か、どこが参考になるか。ご自身の言葉で簡潔にお願いします。
+    validations:
+      required: false
