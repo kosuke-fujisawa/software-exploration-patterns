@@ -1,0 +1,32 @@
+# GitHub Pages 標準の Jekyll 設定。
+# コンテンツ側の Markdown に Jekyll 固有の記述を増やさないことを最優先にしている。
+# 詳しい採用理由は docs/adr/0002-github-pages-with-jekyll.md を参照。
+
+title: Software Exploration Patterns
+description: ソフトウェア開発の「探索知」を共同で蓄積・更新する Living Knowledge Base
+lang: ja
+
+theme: jekyll-theme-primer
+markdown: kramdown
+
+# 以下のプラグインは GitHub Pages ではデフォルトで有効。
+# 明示しておくことで「何に依存しているか」を読めるようにしている。
+plugins:
+  - jekyll-relative-links      # ../patterns/foo.md のような相対リンクをサイト上でも機能させる
+  - jekyll-readme-index        # 各ディレクトリの README.md をそのディレクトリのトップページにする
+  - jekyll-optional-front-matter
+  - jekyll-titles-from-headings
+
+relative_links:
+  enabled: true
+  collections: false
+
+readme_index:
+  enabled: true
+  remove_originals: true
+
+exclude:
+  - LICENSE
+  - scripts/
+  - Gemfile
+  - Gemfile.lock

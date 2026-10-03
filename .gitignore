@@ -1,0 +1,16 @@
+# macOS / 外付けドライブが作る不要ファイル
+.DS_Store
+._*
+
+# Jekyll のローカルビルド成果物
+_site/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
+
+# scripts/build_catalog.py の生成物（コミットしない。ビルド時に生成してサイトへ公開する）
+/catalog.json
+/patterns.json
+/all-patterns.md
+/llms.txt
+/llms-full.txt
