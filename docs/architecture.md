@@ -25,7 +25,7 @@ description: Software Exploration Patterns の技術選定、ローカルでの�
 |---|---|
 | コンテンツ | `patterns/` `heuristics/` `episodes/` `sources/` の Markdown。これが正本 |
 | サイト生成 | GitHub Pages の Jekyll。設定は `_config.yml` 1枚 |
-| 表示 | `_layouts/` 2枚（`default` / `knowledge`）と `assets/css/main.css` 1枚。JavaScript なし |
+| 表示 | テーマ `jekyll-theme-primer`。足しているのは `_layouts/knowledge.html` 1枚だけ。自前の CSS も JavaScript もなし |
 | 派生物の生成 | `scripts/build_catalog.py`（Python 標準ライブラリのみ） |
 | 公開 | `.github/workflows/pages.yml`。`main` へのマージで自動更新 |
 | 検査 | 同ワークフローで front matter と内部リンクを検査。`secret-scan.yml` で簡易 Secret Scan |
@@ -72,7 +72,8 @@ jekyll serve
 - [0002 GitHub Pages 標準の Jekyll でサイトを生成する](adr/0002-github-pages-with-jekyll.md)
 - [0003 コンテンツのライセンスを CC0 1.0 とする](adr/0003-license-cc0.md)
 - [0004 front matter の最小スキーマ](adr/0004-metadata-schema.md)
-- [0005 表示は自前の最小レイアウトで行う](adr/0005-minimal-custom-layout.md)
+- [0005 表示は自前の最小レイアウトで行う](adr/0005-minimal-custom-layout.md)（0006 で置き換え）
+- [0006 テーマに戻し、足す表示を最小限にする](adr/0006-back-to-the-theme.md)
 
 ## 関連
 

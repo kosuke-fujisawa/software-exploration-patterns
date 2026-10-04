@@ -1,8 +1,11 @@
 # 0005 表示は自前の最小レイアウトで行う
 
-- 状態: Accepted
+- 状態: **Superseded by [0006](0006-back-to-the-theme.md)**
 - 日付: 2026-10-04
 - 関連: [0002 GitHub Pages 標準の Jekyll でサイトを生成する](0002-github-pages-with-jekyll.md)（置き換えではなく、その中の「テーマ」部分の決定）
+
+> この決定は [ADR 0006](0006-back-to-the-theme.md) で置き換えられました。自前のレイアウトと CSS で装飾を増やした結果、知識ベースらしい素朴さが失われたためです。
+> front matter の情報を表示に出すという目的自体は 0006 でも維持しています。
 
 ## 背景
 
