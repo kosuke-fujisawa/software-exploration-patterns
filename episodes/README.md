@@ -15,7 +15,7 @@
 ## 投稿のしかた
 
 - GitHub に慣れていない場合: [Issue から投稿](https://github.com/kosuke-fujisawa/software-exploration-patterns/issues/new/choose)してください
-- 慣れている場合: [`_TEMPLATE.md`](_TEMPLATE.md) をコピーして PR を送ってください
+- 慣れている場合: [`_TEMPLATE.md`](https://github.com/kosuke-fujisawa/software-exploration-patterns/blob/main/episodes/_TEMPLATE.md) をコピーして PR を送ってください
 
 ## 一覧
 

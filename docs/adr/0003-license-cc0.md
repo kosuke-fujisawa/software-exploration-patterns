@@ -5,7 +5,7 @@
 
 ## 背景
 
-この知識ベースは、再利用・継承されることを目的としている。また「特定個人がいなくなっても知識が残る」ことを設計目標にしている。リポジトリ作成時点で [CC0 1.0 Universal](../../LICENSE) が設定されていた。
+この知識ベースは、再利用・継承されることを目的としている。また「特定個人がいなくなっても知識が残る」ことを設計目標にしている。リポジトリ作成時点で [CC0 1.0 Universal](https://github.com/kosuke-fujisawa/software-exploration-patterns/blob/main/LICENSE) が設定されていた。
 
 ## 決定
 

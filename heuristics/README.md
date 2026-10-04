@@ -20,4 +20,8 @@
 
 まだ言語化できていない段階のものは [`../episodes/`](../episodes/) へ。
 
-[`_TEMPLATE.md`](_TEMPLATE.md) をコピーして使ってください。
+[`_TEMPLATE.md`](https://github.com/kosuke-fujisawa/software-exploration-patterns/blob/main/heuristics/_TEMPLATE.md) をコピーして使ってください。
+
+---
+
+短い判断則の提案も、「このヒューリスティックは外れた」という報告も歓迎します。[Issue から送る](https://github.com/kosuke-fujisawa/software-exploration-patterns/issues/new/choose)ことができます。GitHub の操作に慣れていなくても構いません。

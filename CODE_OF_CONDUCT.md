@@ -1,3 +1,8 @@
+---
+title: 行動規範
+description: Software Exploration Patterns の参加者に期待すること、許容しないこと、報告のしかた。
+---
+
 # 行動規範
 
 ## 目的

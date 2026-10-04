@@ -16,7 +16,7 @@
 
 ## 書き方
 
-[`_TEMPLATE.md`](_TEMPLATE.md) をコピーして使ってください。本文の構成は次を基本とします。
+[`_TEMPLATE.md`](https://github.com/kosuke-fujisawa/software-exploration-patterns/blob/main/patterns/_TEMPLATE.md) をコピーして使ってください。本文の構成は次を基本とします。
 
 - **Context** — どんな状況で使うか
 - **Problem** — そこで何が困るか
@@ -41,3 +41,7 @@ patterns/     再利用できる探索パターン
 ```
 
 この流れは一方通行ではありません。パターンに反例が集まって heuristic に戻ることも、分割されることもあります。
+
+---
+
+「このパターンは自分の状況では使えなかった」という反例も歓迎します。[Issue から送る](https://github.com/kosuke-fujisawa/software-exploration-patterns/issues/new/choose)ことができます。GitHub の操作に慣れていなくても構いません。

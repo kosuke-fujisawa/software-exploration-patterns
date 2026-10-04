@@ -38,7 +38,7 @@ Maintainer になることに関心がある方は、Issue で声をかけてく
 
 このプロジェクトは、特定の人がいなくなっても知識が残ることを設計目標のひとつにしています。
 
-- コンテンツは [CC0 1.0](LICENSE) なので、**誰でも、許諾を得ることなく Fork して継続できます**。ライセンス上の障害はありません
+- コンテンツは [CC0 1.0](https://github.com/kosuke-fujisawa/software-exploration-patterns/blob/main/LICENSE) なので、**誰でも、許諾を得ることなく Fork して継続できます**。ライセンス上の障害はありません
 - Markdown を Source of Truth としているため、このリポジトリや GitHub Pages が失われても、クローンした人の手元に内容が完全な形で残ります
 - サイトの構成や生成スクリプトは [docs/adr/](docs/adr/) に理由ごと記録してあるため、引き継いだ人が判断の背景を読めます
 
