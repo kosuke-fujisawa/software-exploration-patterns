@@ -1,12 +1,17 @@
-# GitHub Pages 標準の Jekyll 設定。
-# コンテンツ側の Markdown に Jekyll 固有の記述を増やさないことを最優先にしている。
-# 詳しい採用理由は docs/adr/0002-github-pages-with-jekyll.md を参照。
+# GitHub Pages で動く Jekyll の設定。
+#
+# 方針は2つ。
+#   1. コンテンツ側の Markdown に Jekyll 固有の記述を増やさない
+#      （layout 指定などは defaults でまとめて与える）
+#   2. 表示の仕組みは小さく保つ（_layouts 2枚 + CSS 1枚、JavaScript なし）
+# 採用理由は docs/adr/0002-github-pages-with-jekyll.md と
+# docs/adr/0005-minimal-custom-layout.md を参照。
 
 title: Software Exploration Patterns
-description: ソフトウェア開発の「探索知」を共同で蓄積・更新する Living Knowledge Base
+description: ソフトウェア開発で、未知・ズレ・リスクに気づき、理解を更新するための「探索知」を集めるオープンな知識ベース。
 lang: ja
+repository: kosuke-fujisawa/software-exploration-patterns
 
-theme: jekyll-theme-primer
 markdown: kramdown
 
 # 以下のプラグインは GitHub Pages ではデフォルトで有効。
@@ -25,8 +30,55 @@ readme_index:
   enabled: true
   remove_originals: true
 
+# サイト上部のナビゲーション。増やしすぎないこと。
+nav:
+  - title: パターン
+    url: /patterns/
+  - title: ヒューリスティック
+    url: /heuristics/
+  - title: エピソード
+    url: /episodes/
+  - title: 出典
+    url: /sources/
+  - title: About
+    url: /docs/about.html
+  - title: 参加する
+    url: /CONTRIBUTING.html
+
+# トップページの「まず読んでみる」に出すパターンの id。
+# 内容は patterns/*.md から読むので、ここで触るのは並び順と選択だけ。
+featured_patterns:
+  - value-meaning
+  - start-from-failure-state
+  - ask-the-expert
+  - observe-the-field
+  - return-risk-to-design
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: "patterns"
+    values:
+      layout: knowledge
+  - scope:
+      path: "heuristics"
+    values:
+      layout: knowledge
+  - scope:
+      path: "episodes"
+    values:
+      layout: knowledge
+  - scope:
+      path: "sources"
+    values:
+      layout: knowledge
+
 exclude:
   - LICENSE
+  - README.md          # GitHub 向け。サイトのトップページは index.md
   - scripts/
   - Gemfile
   - Gemfile.lock

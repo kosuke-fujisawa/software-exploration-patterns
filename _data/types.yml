@@ -1,0 +1,13 @@
+# 知識の種類ごとの表示名と一覧ページ。front matter の type をキーにしている。
+pattern:
+  label: 探索パターン
+  dir: /patterns/
+heuristic:
+  label: ヒューリスティック
+  dir: /heuristics/
+episode:
+  label: エピソード
+  dir: /episodes/
+source:
+  label: 出典
+  dir: /sources/

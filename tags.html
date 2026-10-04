@@ -1,0 +1,42 @@
+---
+title: タグから探す
+permalink: /tags/
+description: Software Exploration Patterns の知識をタグから横断して読むための一覧。
+---
+{%- comment -%}
+タグ一覧。ビルド時に _data/catalog.json から組み立てる。
+タグ体系はまだ固定していないので、ここで統制語彙を定義しない。
+{%- endcomment -%}
+
+<h1>タグから探す</h1>
+
+<p>タグは、分類（Episodes / Heuristics / Patterns / Sources）をまたいで知識を横断するための目印です。
+<strong>タグ体系はまだ固定していません。</strong>運用しながら統合・変更していきます。
+付け方に違和感があれば <a href="https://github.com/{{ site.repository }}/issues/new?template=02-feedback-on-pattern.yml">意見を送ってください</a>。</p>
+
+{%- if site.data.catalog -%}
+{%- assign all_tags = "" | split: "," -%}
+{%- for entry in site.data.catalog.entries -%}
+{%- if entry.tags -%}{%- assign all_tags = all_tags | concat: entry.tags -%}{%- endif -%}
+{%- endfor -%}
+{%- assign tags = all_tags | uniq | sort -%}
+
+<ul class="tags">
+{%- for tag in tags %}
+<li><a class="tag" href="#{{ tag }}">{{ tag }}</a></li>
+{%- endfor %}
+</ul>
+
+{%- for tag in tags %}
+<h2 id="{{ tag }}">{{ tag }}</h2>
+<ul>
+{%- for entry in site.data.catalog.entries -%}
+{%- if entry.tags contains tag %}
+<li><a href="{{ entry.site_path | relative_url }}">{{ entry.title }}</a><span class="kind">{{ site.data.types[entry.type].label }}</span></li>
+{%- endif -%}
+{%- endfor %}
+</ul>
+{%- endfor %}
+{%- else %}
+<p>タグ一覧はビルド時に生成されます。<code>python3 scripts/build_catalog.py</code> を実行してください。</p>
+{%- endif %}

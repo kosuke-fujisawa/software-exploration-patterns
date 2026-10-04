@@ -1,0 +1,83 @@
+---
+layout: default
+---
+{%- comment -%}
+知識ファイル（episodes / heuristics / patterns / sources）用のレイアウト。
+
+本文は Markdown のまま表示する。ここで足すのは front matter にある情報だけで、
+存在しない情報は出さない（Sources や Episodes が空なら、その見出しごと出さない）。
+id からタイトルを引くために、ビルド時に生成した _data/catalog.json を使う。
+{%- endcomment -%}
+{%- assign entry = site.data.catalog.entries | where: "path", page.path | first -%}
+
+{%- if entry -%}
+{%- assign kind = site.data.types[entry.type] -%}
+{%- assign state = site.data.status[entry.status] -%}
+<div class="eyebrow">
+  <a href="{{ kind.dir | relative_url }}">{{ kind.label }}</a>
+  {%- if state %}
+  <span class="badge badge--{{ entry.status }}" title="{{ state.note }}">{{ state.label }}</span>
+  {%- endif %}
+</div>
+{%- endif -%}
+
+{{ content }}
+
+{%- if entry %}
+<aside class="entry-meta">
+
+  {%- if entry.related.size > 0 %}
+  <h2>{% if entry.type == 'pattern' %}関連する探索パターン{% else %}関連する知識{% endif %}</h2>
+  <ul>
+    {%- for id in entry.related -%}
+    {%- assign rel = site.data.catalog.entries | where: "id", id | first -%}
+    {%- if rel %}
+    <li><a href="{{ rel.site_path | relative_url }}">{{ rel.title }}</a><span class="kind">{{ site.data.types[rel.type].label }}</span></li>
+    {%- endif -%}
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+
+  {%- if entry.sources.size > 0 %}
+  <h2>出典</h2>
+  <ul>
+    {%- for id in entry.sources -%}
+    {%- assign src = site.data.catalog.entries | where: "id", id | first -%}
+    {%- if src %}
+    <li><a href="{{ src.site_path | relative_url }}">{{ src.title }}</a>{% if src.status == 'stub' %}<span class="kind">加筆募集中</span>{% endif %}</li>
+    {%- endif -%}
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+
+  {%- if entry.episodes.size > 0 %}
+  <h2>もとになったエピソード</h2>
+  <ul>
+    {%- for id in entry.episodes -%}
+    {%- assign ep = site.data.catalog.entries | where: "id", id | first -%}
+    {%- if ep %}
+    <li><a href="{{ ep.site_path | relative_url }}">{{ ep.title }}</a></li>
+    {%- endif -%}
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+
+  {%- if entry.tags.size > 0 %}
+  <h2>タグ</h2>
+  <ul class="tags">
+    {%- for tag in entry.tags %}
+    <li><a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag }}">{{ tag }}</a></li>
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+
+  <div class="entry-actions">
+    <a href="https://github.com/{{ site.repository }}/issues/new?template=02-feedback-on-pattern.yml&amp;target={{ entry.path | uri_escape }}">この知識に意見・反例を送る</a>
+    <a href="https://github.com/{{ site.repository }}/edit/main/{{ entry.path }}">GitHub で編集する</a>
+    <a href="https://github.com/{{ site.repository }}/blob/main/{{ entry.path }}">Markdown 原文を見る</a>
+    {%- if entry.updated %}
+    <span>最終更新: {{ entry.updated }}</span>
+    {%- endif %}
+  </div>
+</aside>
+{%- endif %}

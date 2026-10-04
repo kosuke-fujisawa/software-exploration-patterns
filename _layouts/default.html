@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'ja' }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{%- assign page_title = page.title | default: site.title -%}
+<title>{% if page.url == '/' %}{{ site.title }}{% else %}{{ page_title }} | {{ site.title }}{% endif %}</title>
+<meta name="description" content="{{ page.description | default: site.description | strip_newlines }}">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+<meta property="og:title" content="{% if page.url == '/' %}{{ site.title }}{% else %}{{ page_title }}{% endif %}">
+<meta property="og:description" content="{{ page.description | default: site.description | strip_newlines }}">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+</head>
+<body>
+<a class="skip-link" href="#content">本文へスキップ</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <nav class="site-nav" aria-label="サイト内ナビゲーション">
+      {%- for item in site.nav -%}
+        {%- assign current = false -%}
+        {%- if item.url == '/' -%}
+          {%- if page.url == '/' -%}{%- assign current = true -%}{%- endif -%}
+        {%- elsif page.url contains item.url -%}
+          {%- assign current = true -%}
+        {%- endif -%}
+        <a href="{{ item.url | relative_url }}"{% if current %} aria-current="page"{% endif %}>{{ item.title }}</a>
+      {%- endfor -%}
+      <a href="https://github.com/{{ site.repository }}">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="page{% if page.wide %} page--wide{% endif %}">
+{{ content }}
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__links">
+      <a href="{{ '/docs/about.html' | relative_url }}">このプロジェクトについて</a>
+      <a href="{{ '/CONTRIBUTING.html' | relative_url }}">参加のしかた</a>
+      <a href="{{ '/GOVERNANCE.html' | relative_url }}">ガバナンス</a>
+      <a href="{{ '/docs/llm.html' | relative_url }}">LLM から使う</a>
+      <a href="{{ '/docs/architecture.html' | relative_url }}">サイトの構成</a>
+      <a href="https://github.com/{{ site.repository }}">GitHub リポジトリ</a>
+    </div>
+    <p>
+      community-maintained open knowledge base / contributions welcome —
+      特定個人の方法論ではなく、誰でも修正・追加・反例の提示ができる共同知識基盤です。
+    </p>
+    <p>
+      掲載内容は検証済みの正解ではなく、更新され続ける途中の知識です。
+      コンテンツとスクリプトは <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ja">CC0 1.0</a>（パブリックドメイン提供）。
+      ライセンス上の帰属義務はありませんが、知識の来歴をたどれるように出典を残すことを大切にしています。
+    </p>
+  </div>
+</footer>
+</body>
+</html>
