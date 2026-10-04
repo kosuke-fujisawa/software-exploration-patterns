@@ -28,13 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # static_site_generator: jekyll は指定しない。
+      # 指定すると configure-pages@v5 が内部エラー（TypeError）で落ちるため。
+      # baseurl は後段の jekyll-build-pages が公開先に合わせて付けてくれる。
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          # baseurl / url を Pages の実際の公開先に合わせて _config.yml へ注入させる。
-          # レイアウトは relative_url フィルタ前提なので、ここがずれるとリンクが壊れる。
-          static_site_generator: jekyll
 
       # front matter の検査と、catalog.json / llms.txt などの生成。
       # 生成物はコミットせず、ここで作ってサイトに載せる。
