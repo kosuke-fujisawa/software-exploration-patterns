@@ -1,12 +1,16 @@
-ソフトウェア開発で、未知・ズレ・リスクに気づき、理解を更新するための「探索知」を集めるオープンな知識ベースです。要求工学・テスト・QA・アジャイル・PdM・UX・設計・Safety / Reliability に散らばった知識を、分野を越えて持ち寄ります。
-
-- [パターンを見る](patterns/)
-- [経験を投稿する](https://github.com/{{ site.repository }}/issues/new?template=01-new-exploration-knowledge.yml)
-- [このプロジェクトについて知る](docs/about.md)
+**ソフトウェア開発で、未知・ズレ・リスクに気づき、理解を更新するための「探索知」を集めるオープンな知識ベースです。**
 
 集めているのは「正しい開発のやり方」でも「テスト技法集」でもありません。何かがおかしいと気づく、前提を疑う、不明点を見つける、誰かに聞く、現場を見る、リスクを見つける、そのリスクを要求・設計・実装・テスト・運用のどこで扱うか考える —— そうした気づき方の知識です。
 
-## まず読んでみる
+こうした知識は、要求工学・テスト・QA・アジャイル・PdM・UX・設計・Safety / Reliability に散らばっています。それを分野を越えて持ち寄り、誰でも修正・追加・反例の提示ができる形で育てています。掲載しているのは検証済みの正解ではなく、更新され続ける途中の知識です。
+
+## まずはここから
+
+- **[パターンを見る](patterns/)** — 探索パターンの一覧です。1つ読んでみるならここから。
+- **[経験を投稿する](https://github.com/{{ site.repository }}/issues/new?template=01-new-exploration-knowledge.yml)** — 完成した文章でなくて構いません。Issue のフォームから送れます。
+- **[このプロジェクトについて知る](docs/about.md)** — なぜ作るのか、探索知とは何か、何を大切にしているか。
+
+## 代表的なパターン
 
 {% for id in site.featured_patterns -%}
 {%- assign item = site.data.catalog.entries | where: "id", id | first -%}
@@ -30,7 +34,17 @@
 
 [タグから横断して読む]({{ '/tags/' | relative_url }})こともできます。
 
-なお、この知識ベースはまだ初期段階です。掲載内容は継続的に検証・修正・統合されます。体系として完成しているわけでも、標準でもありません。
+## まとめて取り出す・LLM から使う
+
+Markdown が一次情報なので、サイトを経由せずそのまま使えます。ビルドのたびに最新の内容へ更新されます。
+
+- [llms-full.txt]({{ '/llms-full.txt' | relative_url }}) — 全知識の本文を1ファイルに連結したもの。**これ1つを渡せば中身はすべて渡ります**
+- [llms.txt]({{ '/llms.txt' | relative_url }}) — 目次（[llmstxt.org](https://llmstxt.org) 形式）
+- [catalog.json]({{ '/catalog.json' | relative_url }}) / [patterns.json]({{ '/patterns.json' | relative_url }}) — 全エントリのメタデータ（id・type・status・tags・related・sources・要約など）
+- [all-patterns.html]({{ '/all-patterns.html' | relative_url }}) — 全パターンの本文を1ページに連結したもの（人が読む用）
+- リポジトリごと: `git clone https://github.com/{{ site.repository }}.git`
+
+「この仕様に適用できる探索パターンは」「不足している情報は」「次に誰へ何を確認すべきか」といった使い方の例と注意点は [LLM から使う](docs/llm.md) にあります。
 
 ## あなたの経験も探索知になります
 
@@ -54,7 +68,6 @@ GitHub の操作に慣れていなくても、Issue のフォームから送れ�
 - [このプロジェクトについて](docs/about.md) — なぜ作るのか、探索知とは何か、何を大切にしているか
 - [参加のしかた](CONTRIBUTING.md) — 投稿の流れ、書き方、公開してはいけない情報
 - [ガバナンス](GOVERNANCE.md) — 共同知識基盤としての運営方針
-- [LLM から使う](docs/llm.md) — `catalog.json` / `llms.txt` など機械可読な出力
 - [サイトとビルドの構成](docs/architecture.md) — 技術選定、ローカルでの読み方、front matter 仕様
 - [ROADMAP](docs/roadmap.md) — 今後やれること、意図的に入れなかったもの
 

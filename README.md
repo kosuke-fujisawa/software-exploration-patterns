@@ -53,7 +53,7 @@ GitHub の操作に慣れていなくても [Issue のフォーム](https://gith
 - [このプロジェクトについて](docs/about.md) — なぜ作るのか、何を大切にしているか
 - [GOVERNANCE.md](GOVERNANCE.md) — 共同知識基盤としての運営方針。Maintainer 不在でも Fork で継続できます
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 行動規範
-- [LLM から使う](docs/llm.md) — `catalog.json` / `llms.txt` など機械可読な出力
+- [LLM から使う](docs/llm.md) — サイトのビルド時に `llms-full.txt`（全知識の本文を1ファイルに連結）、`llms.txt`、`catalog.json`、`patterns.json` を生成しています。まとめて取り出して使えます
 - [サイトとビルドの構成](docs/architecture.md) — 技術選定、ローカルでの読み方、ADR
 - [front matter の書き方](docs/metadata.md)
 - [ROADMAP](docs/roadmap.md)
