@@ -9,11 +9,12 @@
     python3 scripts/build_catalog.py --base-url https://example.github.io/repo
 
 生成物:
-    catalog.json     全エントリのメタデータ
-    patterns.json    パターンのみのメタデータ
-    all-patterns.md  全パターン本文の連結（サイト上では /all-patterns.html）
-    llms.txt         llmstxt.org 形式の目次
-    llms-full.txt    全知識の本文を連結したプレーンテキスト
+    catalog.json        全エントリのメタデータ
+    patterns.json       パターンのみのメタデータ
+    all-patterns.md     全パターン本文の連結（サイト上では /all-patterns.html）
+    llms.txt            llmstxt.org 形式の目次
+    llms-full.txt       全知識の本文を連結したプレーンテキスト
+    _data/catalog.json  Jekyll のテンプレートから site.data.catalog として読む同じ内容
 
 生成物はリポジトリにコミットしない（.gitignore 済み）。サイトのビルド時に生成する。
 """
@@ -44,6 +45,13 @@ REQUIRED_KEYS = ("id", "type", "title")
 LINK_KEYS = ("related", "sources", "episodes")
 
 DEFAULT_BASE_URL = "https://kosuke-fujisawa.github.io/software-exploration-patterns"
+
+# このスクリプトが生成するファイル（リンク検査の対象から外す）
+GENERATED = {"catalog.json", "patterns.json", "all-patterns.md", "llms.txt", "llms-full.txt"}
+# 検査しないディレクトリ
+SKIP_DIRS = {".git", "_site", ".jekyll-cache", "_data"}
+
+LINK_RE = re.compile(r"(\]\()([^)\s]+)(\))")
 
 
 # --------------------------------------------------------------------------
@@ -209,6 +217,35 @@ def check(entries: list[dict]) -> list[str]:
     return errors
 
 
+
+def check_links() -> list[str]:
+    """Markdown 内の相対リンクが実在するかを確認する。
+
+    GitHub 上でもサイト上でも同じリンクを使う構成なので、
+    リンク切れは両方で同時に壊れる。外部依存なしで検査できる範囲として
+    リポジトリ内のファイルを指すリンクだけを見る。
+    """
+    errors: list[str] = []
+    for path in sorted(REPO_ROOT.rglob("*.md")):
+        rel = path.relative_to(REPO_ROOT)
+        if set(rel.parts) & SKIP_DIRS or path.name.startswith("."):
+            continue
+        if rel.as_posix() in GENERATED:
+            continue
+
+        text = path.read_text(encoding="utf-8")
+        for match in LINK_RE.finditer(text):
+            target = match.group(2)
+            if target.startswith(("http://", "https://", "#", "mailto:")):
+                continue
+            target = target.split("#")[0]
+            if not target:
+                continue
+            if not (path.parent / target).resolve().exists():
+                errors.append(f"{rel.as_posix()}: リンク先 '{target}' が存在しません")
+    return errors
+
+
 # --------------------------------------------------------------------------
 # 生成
 # --------------------------------------------------------------------------
@@ -226,7 +263,10 @@ def to_record(entry: dict, base_url: str) -> dict:
         "episodes": meta.get("episodes", []) or [],
         "created": meta.get("created", ""),
         "updated": meta.get("updated", ""),
+        "summary": _first_sentence(entry["body"]),
         "path": entry["path"],
+        # サイト内の位置。Liquid 側で relative_url フィルタに通して使う
+        "site_path": f"/{entry['dir']}/{entry['slug']}.html",
         "url": f"{base_url}/{entry['dir']}/{entry['slug']}.html",
     }
 
@@ -240,22 +280,29 @@ def generate(entries: list[dict], base_url: str, out_dir: Path) -> None:
     records = [to_record(e, base_url) for e in entries]
     patterns = [e for e in entries if e["meta"].get("type") == "pattern"]
 
-    write(
-        out_dir / "catalog.json",
-        json.dumps(
-            {
-                "name": "Software Exploration Patterns",
-                "description": "ソフトウェア開発の「探索知」を共同で蓄積・更新する Living Knowledge Base",
-                "license": "CC0-1.0",
-                "base_url": base_url,
-                "count": len(records),
-                "entries": records,
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
-    )
+    counts = {key: 0 for key in ("pattern", "heuristic", "episode", "source")}
+    for record in records:
+        if record["type"] in counts:
+            counts[record["type"]] += 1
+
+    catalog = {
+        "name": "Software Exploration Patterns",
+        "description": "ソフトウェア開発の「探索知」を共同で蓄積・更新する Living Knowledge Base",
+        "license": "CC0-1.0",
+        "base_url": base_url,
+        "count": len(records),
+        "counts": counts,
+        "entries": records,
+    }
+    catalog_json = json.dumps(catalog, ensure_ascii=False, indent=2) + "\n"
+
+    write(out_dir / "catalog.json", catalog_json)
+
+    # Jekyll のテンプレートから site.data.catalog として参照する。
+    # id からタイトル・URL を引くために使うので、HTML 側に知識を書かずに済む。
+    data_dir = out_dir / "_data"
+    data_dir.mkdir(exist_ok=True)
+    write(data_dir / "catalog.json", catalog_json)
 
     pattern_ids = {e["meta"].get("id") for e in patterns}
     write(
@@ -355,9 +402,6 @@ def generate(entries: list[dict], base_url: str, out_dir: Path) -> None:
     write(out_dir / "llms-full.txt", "\n".join(full))
 
 
-LINK_RE = re.compile(r"(\]\()([^)\s]+)(\))")
-
-
 def _rebase_links(body: str, entry_dir: str, prefix: str = "", to_html: bool = False) -> str:
     """本文中の相対リンクを、連結後の出力から見た位置に書き換える。
 
@@ -434,14 +478,14 @@ def main() -> int:
     entries = collect_entries()
     print(f"{len(entries)} 件の知識ファイルを読み込みました")
 
-    errors = check(entries)
+    errors = check(entries) + check_links()
     if errors:
         print("", file=sys.stderr)
         for error in errors:
             print(f"ERROR {error}", file=sys.stderr)
         print(f"\n{len(errors)} 件の問題が見つかりました", file=sys.stderr)
         return 1
-    print("front matter の検査: 問題なし")
+    print("front matter と内部リンクの検査: 問題なし")
 
     if args.check:
         return 0
